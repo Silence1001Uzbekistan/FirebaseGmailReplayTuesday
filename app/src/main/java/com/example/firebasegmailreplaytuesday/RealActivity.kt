@@ -59,17 +59,16 @@ class RealActivity : AppCompatActivity() {
 
                     val value = child.getValue(User::class.java)
 
-                    if (value != null) {
+                    if (value != null && uid != value.uid) {
 
                         list.add(value)
 
                     }
                 }
 
-                userAdapter = UserAdapter(list,object :UserAdapter.OnItemClickListener{
+                userAdapter = UserAdapter(list, object : UserAdapter.OnItemClickListener {
 
                     override fun onItemClick(user: User) {
-
 
 
                     }
