@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     lateinit var auth: FirebaseAuth
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -38,6 +39,13 @@ class MainActivity : AppCompatActivity() {
         binding.signInBtn.setOnClickListener {
             signIn()
         }
+
+        binding.logOutBtn.setOnClickListener {
+
+            googleSignInClient.signOut()
+
+        }
+
     }
 
     private fun signIn() {
@@ -73,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 //                        updateUI(user)
                     //Toast.makeText(this, user!!.email, Toast.LENGTH_SHORT).show()
 
-                    startActivity(Intent(this,RealActivity::class.java))
+                    startActivity(Intent(this, RealActivity::class.java))
 
                 } else {
                     // If sign in fails, display a message to the user.

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.example.firebasegmailreplaytuesday.adapters.UserAdapter
 import com.example.firebasegmailreplaytuesday.databinding.ActivityRealBinding
 import com.example.firebasegmailreplaytuesday.models.User
 import com.google.firebase.auth.FirebaseAuth
@@ -18,6 +19,9 @@ class RealActivity : AppCompatActivity() {
     private val TAG = "RealActivity"
 
     lateinit var binding: ActivityRealBinding
+
+    lateinit var userAdapter: UserAdapter
+    var list = ArrayList<User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +51,7 @@ class RealActivity : AppCompatActivity() {
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
-                //string olish uchun
-                val stringBuilder = StringBuilder()
+                list.clear()
 
                 val children = snapshot.children
 
@@ -56,12 +59,24 @@ class RealActivity : AppCompatActivity() {
 
                     val value = child.getValue(User::class.java)
 
-                    stringBuilder.append(value?.display)
-                    Log.d(TAG, "onDataChange: ${value?.display}")
+                    if (value != null) {
 
+                        list.add(value)
+
+                    }
                 }
 
-                binding.tvId.text = stringBuilder.toString()
+                userAdapter = UserAdapter(list,object :UserAdapter.OnItemClickListener{
+
+                    override fun onItemClick(user: User) {
+
+
+
+                    }
+
+                })
+
+                binding.userRv.adapter = userAdapter
 
             }
 
