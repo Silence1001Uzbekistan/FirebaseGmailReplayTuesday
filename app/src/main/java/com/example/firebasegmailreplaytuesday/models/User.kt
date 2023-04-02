@@ -1,6 +1,6 @@
 package com.example.firebasegmailreplaytuesday.models
 
-class User {
+class User:java.io.Serializable {
     var email: String? = null
     var display: String? = null
     var phoneNumber: String? = null

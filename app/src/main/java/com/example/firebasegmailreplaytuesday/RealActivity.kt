@@ -1,5 +1,6 @@
 package com.example.firebasegmailreplaytuesday
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -48,11 +49,12 @@ class RealActivity : AppCompatActivity() {
         reference.child(uid).setValue(user)
 
         //read
-        reference.addValueEventListener(object : ValueEventListener {
+        reference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 list.clear()
 
+                val filterList = arrayListOf<User>()
                 val children = snapshot.children
 
                 for (child in children) {
@@ -64,11 +66,29 @@ class RealActivity : AppCompatActivity() {
                         list.add(value)
 
                     }
+
+                    if(value != null && value.uid == uid){
+
+                        filterList.add(value)
+
+                    }
+
+                }
+
+
+                if (filterList.isEmpty()){
+
+                    reference.child(uid).setValue(user)
+
                 }
 
                 userAdapter = UserAdapter(list, object : UserAdapter.OnItemClickListener {
 
                     override fun onItemClick(user: User) {
+
+                        val intent = Intent(this@RealActivity, MessageActivity::class.java)
+                        intent.putExtra("user", user)
+                        startActivity(intent)
 
 
                     }
